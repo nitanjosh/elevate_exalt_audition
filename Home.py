@@ -82,7 +82,7 @@ st.markdown("""
 if registration_open:
     st.markdown("""
         <div class="hero-container">
-            <div class="hero-title">Elevate Exalt Feliz</div>
+            <div class="hero-title">Elevate Exalt Feliz Audition Application</div>
             <div class="hero-subtitle">Audition Management System</div>
             <div class="status-badge-open">Registration Open</div>
         </div>
