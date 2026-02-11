@@ -4,7 +4,7 @@ from tools.db import verify_admin
 from config import PAGE_CONFIG
 
 # Page config
-st.set_page_config(PAGE_CONFIG)
+st.set_page_config(**PAGE_CONFIG)
 
 # Custom CSS for minimalistic design
 st.markdown("""
@@ -44,13 +44,7 @@ if "authenticated" not in st.session_state:
 
 # Login screen
 if not st.session_state.authenticated:
-    # Theme toggle for login page
-    col_toggle = st.columns([11, 1])
-    with col_toggle[1]:
-        if st.button("🌙" if st.session_state.theme == 'light' else "☀️", key="theme_toggle_login"):
-            st.session_state.theme = 'dark' if st.session_state.theme == 'light' else 'light'
-            st.rerun()
-    
+   
     st.markdown("""
     <div style='display: flex; justify-content: center;'>
         <h1>Admin Login</h1>

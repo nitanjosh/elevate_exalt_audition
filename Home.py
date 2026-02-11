@@ -1,41 +1,99 @@
 import streamlit as st
 import datetime
 from config import REGISTRATION_DEADLINE, PAGE_CONFIG
+import base64
 
-st.set_page_config(PAGE_CONFIG)
-# Check registration status
+st.set_page_config(**PAGE_CONFIG)
 registration_open = datetime.datetime.now() < REGISTRATION_DEADLINE
 
-st.markdown("""
+# Function to load and encode image
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+# Get base64 encoded logos
+logo_dark_base64 = get_base64_image("assets/elevate-exalt_dark.png")
+logo_light_base64 = get_base64_image("assets/elevate-exalt_light.png")
+
+st.markdown(f"""
     <style>
     /* Hide default Streamlit elements for cleaner look */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
+    #MainMenu {{visibility: hidden;}}
+    footer {{visibility: hidden;}}
+    
+    /* Logo fixed in top-right corner */
+    .logo-corner {{
+        position: fixed;
+        top: 3rem;
+        right: 1rem;
+        width: 120px;
+        z-index: 999;
+    }}
+    
+    /* Show dark logo in dark mode, light logo in light mode */
+    .logo-dark {{
+        display: none;
+    }}
+    
+    .logo-light {{
+        display: block;
+    }}
+    
+    @media (prefers-color-scheme: dark) {{
+        .logo-dark {{
+            display: block;
+        }}
+        
+        .logo-light {{
+            display: none;
+        }}
+    }}
+    
+    /* For Streamlit's theme detection */
+    [data-theme="dark"] .logo-dark,
+    body[data-theme="dark"] .logo-dark {{
+        display: block;
+    }}
+    
+    [data-theme="dark"] .logo-light,
+    body[data-theme="dark"] .logo-light {{
+        display: none;
+    }}
+    
+    [data-theme="light"] .logo-dark,
+    body[data-theme="light"] .logo-dark {{
+        display: none;
+    }}
+    
+    [data-theme="light"] .logo-light,
+    body[data-theme="light"] .logo-light {{
+        display: block;
+    }}
     
     /* Hero section styling */
-    .hero-container {
+    .hero-container {{
         text-align: center;
         padding: 3rem 0 2rem 0;
-    }
+    }}
     
-    .hero-title {
+    .hero-title {{
         font-size: 3rem;
         font-weight: 700;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 0.5rem;
-    }
+    }}
     
-    .hero-subtitle {
+    .hero-subtitle {{
         font-size: 1.2rem;
         color: #6c757d;
         font-weight: 300;
         margin-bottom: 2rem;
-    }
+    }}
     
     /* Status indicator */
-    .status-badge-open {
+    .status-badge-open {{
         display: inline-block;
         background: #d4edda;
         color: #155724;
@@ -44,9 +102,9 @@ st.markdown("""
         font-size: 0.85rem;
         font-weight: 500;
         margin: 1rem 0 2rem 0;
-    }
+    }}
     
-    .status-badge-closed {
+    .status-badge-closed {{
         display: inline-block;
         background: #f8d7da;
         color: #721c24;
@@ -55,15 +113,19 @@ st.markdown("""
         font-size: 0.85rem;
         font-weight: 500;
         margin: 1rem 0 2rem 0;
-    }
+    }}
     
     /* Divider */
-    .divider {
+    .divider {{
         height: 1px;
         background: linear-gradient(90deg, transparent, #e9ecef, transparent);
         margin: 2rem 0;
-    }
+    }}
     </style>
+    
+    <!-- Logos in top-right corner (theme-aware) -->
+    <img src="data:image/png;base64,{logo_light_base64}" class="logo-corner logo-light" alt="Elevate Exalt Logo">
+    <img src="data:image/png;base64,{logo_dark_base64}" class="logo-corner logo-dark" alt="Elevate Exalt Logo">
 """, unsafe_allow_html=True)
 
 # Hero Section with dynamic status

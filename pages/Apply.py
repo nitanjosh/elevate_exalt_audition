@@ -2,29 +2,88 @@ import streamlit as st
 import datetime
 from tools.add_data import init_df, add_data
 from config import REGISTRATION_DEADLINE, PAGE_CONFIG
+import base64
 
 init_df()
-st.set_page_config(PAGE_CONFIG)
+st.set_page_config(**PAGE_CONFIG)
+
+# Function to load and encode image
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+# Get base64 encoded logos
+logo_dark_base64 = get_base64_image("assets/elevate-exalt_dark.png")
+logo_light_base64 = get_base64_image("assets/elevate-exalt_light.png")
 
 # Custom CSS for minimalistic design
-st.markdown("""
+st.markdown(f"""
     <style>
     /* Hide default elements */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
+    #MainMenu {{visibility: hidden;}}
+    footer {{visibility: hidden;}}
+    
+    /* Logo fixed in top-right corner */
+    .logo-corner {{
+        position: fixed;
+        top: 3rem;
+        right: 1rem;
+        width: 120px;
+        z-index: 999;
+    }}
+    
+    /* Show dark logo in dark mode, light logo in light mode */
+    .logo-dark {{
+        display: none;
+    }}
+    
+    .logo-light {{
+        display: block;
+    }}
+    
+    @media (prefers-color-scheme: dark) {{
+        .logo-dark {{
+            display: block;
+        }}
+        
+        .logo-light {{
+            display: none;
+        }}
+    }}
+    
+    /* For Streamlit's theme detection */
+    [data-theme="dark"] .logo-dark,
+    body[data-theme="dark"] .logo-dark {{
+        display: block;
+    }}
+    
+    [data-theme="dark"] .logo-light,
+    body[data-theme="dark"] .logo-light {{
+        display: none;
+    }}
+    
+    [data-theme="light"] .logo-dark,
+    body[data-theme="light"] .logo-dark {{
+        display: none;
+    }}
+    
+    [data-theme="light"] .logo-light,
+    body[data-theme="light"] .logo-light {{
+        display: block;
+    }}
     
     /* Form container */
-    .form-container {
+    .form-container {{
         background: #ffffff;
         border: 1px solid #e9ecef;
         border-radius: 12px;
         padding: 2rem;
         margin: 1rem 0;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
+    }}
     
     /* Section headers */
-    .section-header {
+    .section-header {{
         font-size: 0.85rem;
         font-weight: 600;
         color: #6c757d;
@@ -33,72 +92,76 @@ st.markdown("""
         margin: 1.5rem 0 0.75rem 0;
         border-bottom: 1px solid #e9ecef;
         padding-bottom: 0.5rem;
-    }
+    }}
     
     /* Page title */
-    .page-title {
+    .page-title {{
         font-size: 2rem;
         font-weight: 600;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 0.5rem;
-    }
+    }}
     
-    .page-subtitle {
+    .page-subtitle {{
         font-size: 0.95rem;
         color: #6c757d;
         margin-bottom: 2rem;
-    }
+    }}
     
     /* Required field indicator */
-    .required-note {
+    .required-note {{
         font-size: 0.85rem;
         color: #6c757d;
         font-style: italic;
         margin-bottom: 1.5rem;
-    }
+    }}
     
     /* Divider */
-    .divider {
+    .divider {{
         height: 1px;
         background: linear-gradient(90deg, transparent, #e9ecef, transparent);
         margin: 2rem 0;
-    }
+    }}
     
     /* Review section styling */
-    .review-container {
+    .review-container {{
         background: #f8f9fa;
         border: 1px solid #e9ecef;
         border-radius: 8px;
         padding: 1.5rem;
         margin: 1rem 0;
-    }
+    }}
     
-    .review-title {
+    .review-title {{
         font-size: 1.3rem;
         font-weight: 600;
         color: #212529;
         margin-bottom: 1rem;
-    }
+    }}
     
-    .info-row {
+    .info-row {{
         display: flex;
         justify-content: space-between;
         padding: 0.5rem 0;
         border-bottom: 1px solid #dee2e6;
-    }
+    }}
     
-    .info-label {
+    .info-label {{
         font-weight: 500;
         color: #6c757d;
-    }
+    }}
     
-    .info-value {
+    .info-value {{
         color: #212529;
         text-align: right;
-    }
+    }}
     </style>
+    
+    <!-- Logos in top-right corner (theme-aware) -->
+    <img src="data:image/png;base64,{logo_light_base64}" class="logo-corner logo-light" alt="Elevate Exalt Logo">
+    <img src="data:image/png;base64,{logo_dark_base64}" class="logo-corner logo-dark" alt="Elevate Exalt Logo">
 """, unsafe_allow_html=True)
 
 if datetime.datetime.now() > REGISTRATION_DEADLINE:
@@ -178,7 +241,7 @@ else:
     if submit_clicked:
         # Validate required fields
         if not first_name or not last_name or not email or not dleader:
-            st.error("⚠️ Please fill in all required fields (marked with *)!")
+            st.error("Please fill in all required fields (marked with *)!")
         else:
             st.session_state.pending_data = {
                 "first_name": first_name,
@@ -246,7 +309,7 @@ if st.session_state.get("show_confirmation", False):
     
     st.markdown('</div>', unsafe_allow_html=True)
     
-    st.warning("⚠️ Please review your information carefully before submitting.")
+    st.warning("Confirm personal details before submitting.")
     
     col_yes, col_no, col_empty = st.columns([1, 1, 1])
     
@@ -259,7 +322,7 @@ if st.session_state.get("show_confirmation", False):
             st.session_state.show_confirmation = False
             st.session_state.pending_data = None
         else:
-            st.error("❌ Failed to submit application. Please try again or contact support.")
+            st.error("Failed to submit application. Please try again or contact support.")
     
     if col_no.button("← Go Back", use_container_width=True):
         # Clear confirmation state
