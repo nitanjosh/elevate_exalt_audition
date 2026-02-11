@@ -13,7 +13,6 @@ if not DATABASE_URL:
 # Create SQLAlchemy engine
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 
-# Optional connection testimport os
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 
@@ -25,7 +24,6 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL not set. Please set it in your .env or Streamlit Secrets.")
 
-# Create SQLAlchemy engine
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 
 #Connection test
