@@ -1,20 +1,8 @@
 import streamlit as st
 import datetime
-from config import REGISTRATION_DEADLINE
-from theme_utils import apply_theme, theme_toggle_button
+from config import REGISTRATION_DEADLINE, PAGE_CONFIG
 
-st.set_page_config(
-    page_title="Exalt Audition System",
-    page_icon="🎵",
-    layout="centered"
-)
-
-# Apply theme
-apply_theme()
-
-# Theme toggle
-theme_toggle_button()
-
+st.set_page_config(PAGE_CONFIG)
 # Check registration status
 registration_open = datetime.datetime.now() < REGISTRATION_DEADLINE
 

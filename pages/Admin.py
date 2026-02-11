@@ -1,13 +1,10 @@
 import streamlit as st
 from tools.add_data import get_all_applicants
 from tools.db import verify_admin
-from theme_utils import apply_theme, init_theme
+from config import PAGE_CONFIG
 
 # Page config
-st.set_page_config(page_title="Admin", page_icon="🔐", layout="wide")
-
-# Apply theme
-apply_theme()
+st.set_page_config(PAGE_CONFIG)
 
 # Custom CSS for minimalistic design
 st.markdown("""
@@ -44,8 +41,6 @@ st.markdown("""
 # Initialize session state
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
-
-init_theme()
 
 # Login screen
 if not st.session_state.authenticated:

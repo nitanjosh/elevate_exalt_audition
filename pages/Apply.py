@@ -1,16 +1,10 @@
 import streamlit as st
 import datetime
 from tools.add_data import init_df, add_data
-from config import REGISTRATION_DEADLINE
-from theme_utils import apply_theme, theme_toggle_button
+from config import REGISTRATION_DEADLINE, PAGE_CONFIG
 
 init_df()
-
-# Apply theme
-apply_theme()
-
-# Theme toggle
-theme_toggle_button()
+st.set_page_config(PAGE_CONFIG)
 
 # Custom CSS for minimalistic design
 st.markdown("""
