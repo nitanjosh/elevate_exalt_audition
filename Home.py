@@ -132,7 +132,7 @@ st.markdown(f"""
 if registration_open:
     st.markdown("""
         <div class="hero-container">
-            <div class="hero-title">Elevate Exalt Feliz</div>
+            <div class="hero-title">ELEVATE EXALT FELIZ</div>
             <div class="hero-subtitle">Audition Application</div>
             <div class="status-badge-open">Registration Open</div>
         </div>

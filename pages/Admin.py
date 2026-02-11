@@ -72,11 +72,6 @@ else:
     col1, col2, col3 = st.columns([5, 0.5, 1])
     with col1:
         st.markdown("<h1>Exalt Auditionee Applications</h1>", unsafe_allow_html=True)
-    with col2:
-        st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("🌙" if st.session_state.theme == 'light' else "☀️", key="theme_toggle_admin"):
-            st.session_state.theme = 'dark' if st.session_state.theme == 'light' else 'light'
-            st.rerun()
     with col3:
         st.markdown("<br>", unsafe_allow_html=True)
         if st.button("Logout", use_container_width=True):
@@ -106,8 +101,6 @@ else:
         col1, col2, col3 = st.columns(3)
         with col1:
             st.metric("Total Applications", len(df))
-        with col2:
-            st.metric("Latest Entry", df.iloc[-1]['name'] if 'name' in df.columns else "N/A")
         with col3:
             csv = display_df.to_csv(index=False)
             st.download_button(
