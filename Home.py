@@ -243,7 +243,7 @@ song_col1, song_col2 = st.columns(2)
 with song_col1:
     st.markdown("""
         <div class="song-card">
-            <div class="song-title">By Your Love/div>
+            <div class="song-title">By Your Love</div>
             <div class="song-artist">CCF Exalt</div>
         </div>
     """, unsafe_allow_html=True)
