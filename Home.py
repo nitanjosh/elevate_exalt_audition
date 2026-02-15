@@ -77,6 +77,69 @@ st.markdown(f"""
         display: block;
     }}
     
+    /* Status banner at top */
+    .status-banner {{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.5rem;
+        margin: -1rem -1rem 2rem -1rem;
+        border-bottom: 1px solid;
+    }}
+    
+    .status-banner-open {{
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        border-bottom-color: #b1dfbb;
+        color: #155724;
+    }}
+    
+    .status-banner-closed {{
+        background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+        border-bottom-color: #f1b0b7;
+        color: #721c24;
+    }}
+    
+    [data-theme="dark"] .status-banner-open {{
+        background: linear-gradient(135deg, #1e4620 0%, #2d5a2e 100%);
+        border-bottom-color: #3d6a3e;
+        color: #a3cfbb;
+    }}
+    
+    [data-theme="dark"] .status-banner-closed {{
+        background: linear-gradient(135deg, #4a1f1f 0%, #5a2828 100%);
+        border-bottom-color: #6a3838;
+        color: #f5b8b8;
+    }}
+    
+    .status-text {{
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+    }}
+    
+    .status-dot {{
+        width: 8px;
+        height: 8px;
+        background: #28a745;
+        border-radius: 50%;
+        animation: pulse 2s ease-in-out infinite;
+    }}
+    
+    .status-dot-closed {{
+        background: #dc3545;
+        animation: none;
+    }}
+    
+    @keyframes pulse {{
+        0%, 100% {{
+            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+        }}
+        50% {{
+            box-shadow: 0 0 0 6px rgba(40, 167, 69, 0);
+        }}
+    }}
+    
     /* Hero section styling */
     .hero-container {{
         text-align: center;
@@ -114,51 +177,6 @@ st.markdown(f"""
     
     [data-theme="dark"] .hero-subtitle {{
         color: #adb5bd;
-    }}
-    
-    /* Animated status indicator */
-    .status-indicator {{
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: #d4edda;
-        color: #155724;
-        padding: 0.5rem 1.2rem;
-        border-radius: 25px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        margin: 1rem 0 2rem 0;
-        box-shadow: 0 2px 8px rgba(21, 87, 36, 0.15);
-    }}
-    
-    .status-indicator-closed {{
-        background: #f8d7da;
-        color: #721c24;
-        box-shadow: 0 2px 8px rgba(114, 28, 36, 0.15);
-    }}
-    
-    /* Pulsing dot animation */
-    .status-dot {{
-        width: 8px;
-        height: 8px;
-        background: #28a745;
-        border-radius: 50%;
-        animation: pulse 2s ease-in-out infinite;
-        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
-    }}
-    
-    .status-dot-closed {{
-        background: #dc3545;
-        animation: none;
-    }}
-    
-    @keyframes pulse {{
-        0%, 100% {{
-            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
-        }}
-        50% {{
-            box-shadow: 0 0 0 6px rgba(40, 167, 69, 0);
-        }}
     }}
     
     /* Divider */
@@ -269,29 +287,29 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# Hero Section with animated status indicator
+# Status Banner (above hero)
 if registration_open:
     st.markdown("""
-        <div class="hero-container">
-            <div class="hero-title">ELEVATE EXALT FELIZ</div>
-            <div class="hero-subtitle">Audition Application Portal</div>
-            <div class="status-indicator">
-                <span class="status-dot"></span>
-                Registration Open
-            </div>
+        <div class="status-banner status-banner-open">
+            <span class="status-dot"></span>
+            <span class="status-text">Registration is currently open</span>
         </div>
     """, unsafe_allow_html=True)
 else:
     st.markdown("""
-        <div class="hero-container">
-            <div class="hero-title">ELEVATE EXALT FELIZ</div>
-            <div class="hero-subtitle">Audition Application Portal</div>
-            <div class="status-indicator status-indicator-closed">
-                <span class="status-dot status-dot-closed"></span>
-                Registration Closed
-            </div>
+        <div class="status-banner status-banner-closed">
+            <span class="status-dot status-dot-closed"></span>
+            <span class="status-text">Registration has closed</span>
         </div>
     """, unsafe_allow_html=True)
+
+# Hero Section (without status)
+st.markdown("""
+    <div class="hero-container">
+        <div class="hero-title">ELEVATE EXALT FELIZ</div>
+        <div class="hero-subtitle">Audition Application Portal</div>
+    </div>
+""", unsafe_allow_html=True)
 
 st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
