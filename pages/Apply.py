@@ -259,7 +259,7 @@ st.markdown(f"""
     }}
     
     [data-theme="dark"] .info-value {{
-        color: #e9ecef;
+        color: #ffffff;
     }}
     
     /* Responsive adjustments */
@@ -336,33 +336,74 @@ else:
         st.markdown('<div class="page-title">Audition Application</div>', unsafe_allow_html=True)
         st.markdown('<div class="page-subtitle">Elevate Exalt Feliz</div>', unsafe_allow_html=True)
 
+        # Get existing data from session state if available (to preserve form data)
+        existing_data = st.session_state.get("pending_data", {})
+
         # Personal Information Section
         st.markdown('<div class="section-header">Personal Information</div>', unsafe_allow_html=True)
         
         col1, col2 = st.columns(2)
-        first_name = col1.text_input("First Name *", placeholder="Enter your first name")
-        last_name = col1.text_input("Last Name *", placeholder="Enter your last name")
-        age = col2.number_input("Age", min_value=0, max_value=100, value=0)
-        phone = col2.text_input("Phone Number", placeholder="09XX XXX XXXX")
+        first_name = col1.text_input(
+            "First Name *", 
+            placeholder="Enter your first name",
+            value=existing_data.get("first_name", "")
+        )
+        last_name = col1.text_input(
+            "Last Name *", 
+            placeholder="Enter your last name",
+            value=existing_data.get("last_name", "")
+        )
+        age = col2.number_input(
+            "Age", 
+            min_value=0, 
+            max_value=100, 
+            value=existing_data.get("age", 0)
+        )
+        phone = col2.text_input(
+            "Phone Number", 
+            placeholder="09XX XXX XXXX",
+            value=existing_data.get("phone", "")
+        )
 
         st.markdown('<div class="section-header">Contact</div>', unsafe_allow_html=True)
         
         col3, col4 = st.columns(2)
-        email = col3.text_input("Email Address *", placeholder="your.email@example.com")
-        dleader = col4.text_input("Dgroup Leader *", placeholder="Leader's name")
+        email = col3.text_input(
+            "Email Address *", 
+            placeholder="your.email@example.com",
+            value=existing_data.get("email", "")
+        )
+        dleader = col4.text_input(
+            "Dgroup Leader *", 
+            placeholder="Leader's name",
+            value=existing_data.get("dleader", "")
+        )
 
         st.markdown('<div class="section-header">Audition Details</div>', unsafe_allow_html=True)
         
+        # Get the index for category if it exists in session state
+        category_options = ["Band", "Singer"]
+        category_index = 0
+        if existing_data.get("category") in category_options:
+            category_index = category_options.index(existing_data.get("category"))
+        
         category = st.selectbox(
             "Category", 
-            ["Band", "Singer"],
+            category_options,
+            index=category_index,
             help="Select your audition category"
         )
 
         if category == "Band":
+            instrument_options = ["Acoustic Guitar", "Electric Guitar", "Bass Guitar", "Drums", "Keyboard"]
+            instrument_index = 0
+            if existing_data.get("instrument") in instrument_options:
+                instrument_index = instrument_options.index(existing_data.get("instrument"))
+            
             instrument = st.selectbox(
                 "Instrument",
-                ["Acoustic Guitar", "Electric Guitar", "Bass Guitar", "Drums", "Keyboard"],
+                instrument_options,
+                index=instrument_index,
                 help="Select your primary instrument"
             )
         else:
@@ -393,9 +434,15 @@ else:
             
             # Show dropdown or message
             if available_audition_dates:
+                # Get the index for audition date if it exists in session state
+                aud_date_index = 0
+                if existing_data.get("aud_date") in available_audition_dates:
+                    aud_date_index = available_audition_dates.index(existing_data.get("aud_date"))
+                
                 aud_date = st.selectbox(
                     "Audition Date", 
                     available_audition_dates,
+                    index=aud_date_index,
                     help="Choose your preferred audition date"
                 )
             else:
@@ -405,17 +452,21 @@ else:
         with col6:
             if aud_date:
                 if aud_date == "February 21, 5:00PM":
-                    interview_date = st.selectbox(
-                        "Interview Date", 
-                        ["February 28, 5:00PM", "March 14, 5:00PM"],
-                        help="Choose your preferred interview date"
-                    )
+                    interview_options = ["February 28, 5:00PM", "March 14, 5:00PM"]
                 else:
-                    interview_date = st.selectbox(
-                        "Interview Date", 
-                        ["March 14, 5:00PM"],
-                        help="Available interview date for this audition"
-                    )
+                    interview_options = ["March 14, 5:00PM"]
+                
+                # Get the index for interview date if it exists in session state
+                interview_index = 0
+                if existing_data.get("interview_date") in interview_options:
+                    interview_index = interview_options.index(existing_data.get("interview_date"))
+                
+                interview_date = st.selectbox(
+                    "Interview Date", 
+                    interview_options,
+                    index=interview_index,
+                    help="Choose your preferred interview date" if len(interview_options) > 1 else "Available interview date for this audition"
+                )
             else:
                 interview_date = None
 
@@ -517,6 +568,6 @@ else:
                 st.error("Failed to submit application. Please try again or contact support.")
         
         if col_no.button("← Edit Application", use_container_width=True):
-            # Clear confirmation state to go back to form
+            # Clear confirmation state to go back to form (but keep pending_data)
             st.session_state.show_confirmation = False
             st.rerun()
