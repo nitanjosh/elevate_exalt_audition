@@ -21,10 +21,17 @@ st.markdown(f"""
     #MainMenu {{visibility: hidden;}}
     footer {{visibility: hidden;}}
     
-    /* Logo fixed in top-right corner */
+    /* Container for proper absolute positioning */
+    .header-container {{
+        position: relative;
+        width: 100%;
+        min-height: 100px;
+    }}
+    
+    /* Logo positioned in top-right corner (scrolls with content) */
     .logo-corner {{
-        position: fixed;
-        top: 3rem;
+        position: absolute;
+        top: 1rem;
         right: 1rem;
         width: 120px;
         z-index: 999;
@@ -76,43 +83,82 @@ st.markdown(f"""
         padding: 3rem 0 2rem 0;
     }}
     
+    /* Enhanced hero title with modern gradient */
     .hero-title {{
-        font-size: 3rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        background-clip: text;
         margin-bottom: 0.5rem;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
     }}
     
+    [data-theme="dark"] .hero-title {{
+        background: linear-gradient(135deg, #8b9eff 0%, #a78bfa 50%, #f5b8ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }}
+    
+    /* Subtitle enhancement */
     .hero-subtitle {{
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         color: #6c757d;
-        font-weight: 300;
-        margin-bottom: 2rem;
+        font-weight: 400;
+        margin-bottom: 1.5rem;
+        letter-spacing: 0.02em;
     }}
     
-    /* Status indicator */
-    .status-badge-open {{
-        display: inline-block;
+    [data-theme="dark"] .hero-subtitle {{
+        color: #adb5bd;
+    }}
+    
+    /* Animated status indicator */
+    .status-indicator {{
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
         background: #d4edda;
         color: #155724;
-        padding: 0.4rem 1rem;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 500;
+        padding: 0.5rem 1.2rem;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
         margin: 1rem 0 2rem 0;
+        box-shadow: 0 2px 8px rgba(21, 87, 36, 0.15);
     }}
     
-    .status-badge-closed {{
-        display: inline-block;
+    .status-indicator-closed {{
         background: #f8d7da;
         color: #721c24;
-        padding: 0.4rem 1rem;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 500;
-        margin: 1rem 0 2rem 0;
+        box-shadow: 0 2px 8px rgba(114, 28, 36, 0.15);
+    }}
+    
+    /* Pulsing dot animation */
+    .status-dot {{
+        width: 8px;
+        height: 8px;
+        background: #28a745;
+        border-radius: 50%;
+        animation: pulse 2s ease-in-out infinite;
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+    }}
+    
+    .status-dot-closed {{
+        background: #dc3545;
+        animation: none;
+    }}
+    
+    @keyframes pulse {{
+        0%, 100% {{
+            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+        }}
+        50% {{
+            box-shadow: 0 0 0 6px rgba(40, 167, 69, 0);
+        }}
     }}
     
     /* Divider */
@@ -159,27 +205,37 @@ st.markdown(f"""
         margin-bottom: 1rem;
     }}
     </style>
-    
-    <!-- Logos in top-right corner (theme-aware) -->
-    <img src="data:image/png;base64,{logo_light_base64}" class="logo-corner logo-light" alt="Elevate Exalt Logo">
-    <img src="data:image/png;base64,{logo_dark_base64}" class="logo-corner logo-dark" alt="Elevate Exalt Logo">
 """, unsafe_allow_html=True)
 
-# Hero Section with dynamic status
+# Header with logo
+st.markdown(f"""
+    <div class="header-container">
+        <img src="data:image/png;base64,{logo_light_base64}" class="logo-corner logo-light" alt="Elevate Exalt Logo">
+        <img src="data:image/png;base64,{logo_dark_base64}" class="logo-corner logo-dark" alt="Elevate Exalt Logo">
+    </div>
+""", unsafe_allow_html=True)
+
+# Hero Section with animated status indicator
 if registration_open:
     st.markdown("""
         <div class="hero-container">
             <div class="hero-title">ELEVATE EXALT FELIZ</div>
-            <div class="hero-subtitle">Audition Application</div>
-            <div class="status-badge-open">Registration Open</div>
+            <div class="hero-subtitle">Audition Application Portal</div>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                Registration Open
+            </div>
         </div>
     """, unsafe_allow_html=True)
 else:
     st.markdown("""
         <div class="hero-container">
-            <div class="hero-title">Elevate Exalt Feliz</div>
-            <div class="hero-subtitle">Audition Management System</div>
-            <div class="status-badge-closed">Registration Closed</div>
+            <div class="hero-title">ELEVATE EXALT FELIZ</div>
+            <div class="hero-subtitle">Audition Application Portal</div>
+            <div class="status-indicator status-indicator-closed">
+                <span class="status-dot status-dot-closed"></span>
+                Registration Closed
+            </div>
         </div>
     """, unsafe_allow_html=True)
 
