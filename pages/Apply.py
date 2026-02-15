@@ -204,7 +204,6 @@ else:
         )
     else:
         instrument = "Vocals"
-        st.info("🎤 Category: Vocals")
 
     st.markdown('<div class="section-header">Schedule</div>', unsafe_allow_html=True)
     
