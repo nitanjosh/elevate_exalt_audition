@@ -222,6 +222,13 @@ st.markdown(f"""
         border: 1px solid #333;
     }}
     
+    @media (prefers-color-scheme: dark) {{
+        .review-container {{
+            background: #1e1e1e;
+            border: 1px solid #333;
+        }}
+    }}
+    
     .review-title {{
         font-size: 1.3rem;
         font-weight: 600;
@@ -231,6 +238,12 @@ st.markdown(f"""
     
     [data-theme="dark"] .review-title {{
         color: #e9ecef;
+    }}
+    
+    @media (prefers-color-scheme: dark) {{
+        .review-title {{
+            color: #e9ecef;
+        }}
     }}
     
     .info-row {{
@@ -244,6 +257,12 @@ st.markdown(f"""
         border-bottom: 1px solid #444;
     }}
     
+    @media (prefers-color-scheme: dark) {{
+        .info-row {{
+            border-bottom: 1px solid #444;
+        }}
+    }}
+    
     .info-label {{
         font-weight: 500;
         color: #6c757d;
@@ -253,13 +272,25 @@ st.markdown(f"""
         color: #adb5bd;
     }}
     
+    @media (prefers-color-scheme: dark) {{
+        .info-label {{
+            color: #adb5bd;
+        }}
+    }}
+    
     .info-value {{
         color: #212529;
         text-align: right;
     }}
     
     [data-theme="dark"] .info-value {{
-        color: #ffffff;
+        color: #ffffff !important;
+    }}
+    
+    @media (prefers-color-scheme: dark) {{
+        .info-value {{
+            color: #ffffff !important;
+        }}
     }}
     
     /* Responsive adjustments */
