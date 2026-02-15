@@ -412,29 +412,32 @@ else:
 
         st.markdown('<div class="section-header">Audition Details</div>', unsafe_allow_html=True)
         
-        # Get the index for category if it exists in session state
-        category_options = ["Select a category...", "Band", "Singer"]
-        category_index = 0
-        if existing_data.get("category") in category_options[1:]:
+        # IMPROVED: Category dropdown with native placeholder
+        category_options = ["Band", "Singer"]
+        category_index = None
+        if existing_data.get("category") in category_options:
             category_index = category_options.index(existing_data.get("category"))
         
         category = st.selectbox(
             "Category *", 
             category_options,
             index=category_index,
+            placeholder="Select a category...",
             help="Select your audition category"
         )
 
+        # IMPROVED: Instrument dropdown with native placeholder
         if category == "Band":
-            instrument_options = ["Select an instrument...", "Acoustic Guitar", "Electric Guitar", "Bass Guitar", "Drums", "Keyboard"]
-            instrument_index = 0
-            if existing_data.get("instrument") in instrument_options[1:]:
+            instrument_options = ["Acoustic Guitar", "Electric Guitar", "Bass Guitar", "Drums", "Keyboard"]
+            instrument_index = None
+            if existing_data.get("instrument") in instrument_options:
                 instrument_index = instrument_options.index(existing_data.get("instrument"))
             
             instrument = st.selectbox(
                 "Instrument *",
                 instrument_options,
                 index=instrument_index,
+                placeholder="Select an instrument...",
                 help="Select your primary instrument"
             )
         elif category == "Singer":
@@ -465,26 +468,20 @@ else:
                 if date_obj > current_datetime:
                     available_audition_dates.append(date_str)
             
-            # Show dropdown or message
+            # IMPROVED: Show dropdown with native placeholder
             if available_audition_dates:
-                # Add placeholder option
-                audition_date_options = ["Select a date..."] + available_audition_dates
-                
                 # Get the index for audition date if it exists in session state
-                aud_date_index = 0
+                aud_date_index = None
                 if existing_data.get("aud_date") in available_audition_dates:
-                    aud_date_index = audition_date_options.index(existing_data.get("aud_date"))
+                    aud_date_index = available_audition_dates.index(existing_data.get("aud_date"))
                 
                 aud_date = st.selectbox(
                     "Audition Date *", 
-                    audition_date_options,
+                    available_audition_dates,
                     index=aud_date_index,
+                    placeholder="Select a date...",
                     help="Choose your preferred audition date"
                 )
-                
-                # Set to None if placeholder is selected
-                if aud_date == "Select a date...":
-                    aud_date = None
             else:
                 st.warning("No upcoming audition dates available.")
                 aud_date = None
@@ -496,24 +493,18 @@ else:
                 else:
                     interview_options_list = ["March 14, 5:00PM"]
                 
-                # Add placeholder option
-                interview_options = ["Select a date..."] + interview_options_list
-                
-                # Get the index for interview date if it exists in session state
-                interview_index = 0
+                # IMPROVED: Get the index for interview date if it exists in session state
+                interview_index = None
                 if existing_data.get("interview_date") in interview_options_list:
-                    interview_index = interview_options.index(existing_data.get("interview_date"))
+                    interview_index = interview_options_list.index(existing_data.get("interview_date"))
                 
                 interview_date = st.selectbox(
                     "Interview Date *", 
-                    interview_options,
+                    interview_options_list,
                     index=interview_index,
+                    placeholder="Select a date...",
                     help="Choose your preferred interview date" if len(interview_options_list) > 1 else "Available interview date for this audition"
                 )
-                
-                # Set to None if placeholder is selected
-                if interview_date == "Select a date...":
-                    interview_date = None
             else:
                 interview_date = None
 
@@ -525,12 +516,12 @@ else:
             submit_clicked = st.button("Continue to Review", type="primary", use_container_width=True)
 
         if submit_clicked:
-            # Validate required fields
+            # IMPROVED: Validate required fields - simplified logic
             if not first_name or not last_name or not email or not dleader:
                 st.error("Please fill in all required fields (marked with *)!")
-            elif category == "Select a category...":
+            elif not category:
                 st.error("Please select a category!")
-            elif category == "Band" and (instrument is None or instrument == "Select an instrument..."):
+            elif category == "Band" and not instrument:
                 st.error("Please select an instrument!")
             elif not aud_date:
                 st.error("Please select an audition date!")
