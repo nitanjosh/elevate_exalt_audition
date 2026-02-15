@@ -121,6 +121,43 @@ st.markdown(f"""
         background: linear-gradient(90deg, transparent, #e9ecef, transparent);
         margin: 2rem 0;
     }}
+    
+    /* Song card styling */
+    .song-card {{
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #e9ecef;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }}
+    
+    .song-card:hover {{
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }}
+    
+    [data-theme="dark"] .song-card {{
+        background: #1e1e1e;
+        border: 1px solid #333;
+    }}
+    
+    .song-title {{
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #495057;
+    }}
+    
+    [data-theme="dark"] .song-title {{
+        color: #e9ecef;
+    }}
+    
+    .song-artist {{
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }}
     </style>
     
     <!-- Logos in top-right corner (theme-aware) -->
@@ -190,6 +227,38 @@ with cat_col2:
         - Worship Leader (Only if DLeader)
         - Prompter (Support for Worship Leader)
         """)
+
+st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+
+# Songs for Audition Section
+st.markdown("### 🎵 Songs to Prepare")
+st.markdown("""
+<p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 1.5rem;">
+    Study these songs before your audition. Click the buttons below to watch and learn.
+</p>
+""", unsafe_allow_html=True)
+
+song_col1, song_col2 = st.columns(2)
+
+with song_col1:
+    st.markdown("""
+        <div class="song-card">
+            <div class="song-title">🎶 Song Title 1</div>
+            <div class="song-artist">Artist Name</div>
+        </div>
+    """, unsafe_allow_html=True)
+    if st.button("▶️ Watch on YouTube", key="song1", use_container_width=True):
+        st.link_button("Open YouTube", "https://www.youtube.com/watch?v=KHyrPzINgyE", use_container_width=True)
+
+with song_col2:
+    st.markdown("""
+        <div class="song-card">
+            <div class="song-title">🎶 Song Title 2</div>
+            <div class="song-artist">Artist Name</div>
+        </div>
+    """, unsafe_allow_html=True)
+    if st.button("▶️ Watch on YouTube", key="song2", use_container_width=True):
+        st.link_button("Open YouTube", "https://www.youtube.com/watch?v=nQWFzMvCfLE", use_container_width=True)
 
 # Footer with Call to Action
 st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
