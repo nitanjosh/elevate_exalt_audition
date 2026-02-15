@@ -244,7 +244,7 @@ else:
             if aud_date == "February 21, 5:00PM":
                 interview_date = st.selectbox(
                     "Interview Date", 
-                    ["Feb 28, 5:00PM", "March 14, 5:00PM"],
+                    ["February 28, 5:00PM", "March 14, 5:00PM"],
                     help="Choose your preferred interview date"
                 )
             else:
