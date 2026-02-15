@@ -21,11 +21,79 @@ st.markdown(f"""
     #MainMenu {{visibility: hidden;}}
     footer {{visibility: hidden;}}
     
-    /* Container for proper absolute positioning */
+    /* Remove top padding from main container */
+    .main .block-container {{
+        padding-top: 2rem;
+        max-width: 100%;
+    }}
+    
+    /* Container for header with both logo and status */
     .header-container {{
         position: relative;
         width: 100%;
-        min-height: 100px;
+        min-height: 60px;
+        margin-bottom: 1rem;
+    }}
+    
+    /* Status indicator in top-left corner */
+    .status-corner {{
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        z-index: 999;
+    }}
+    
+    .status-corner-open {{
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }}
+    
+    .status-corner-closed {{
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }}
+    
+    [data-theme="dark"] .status-corner-open {{
+        background: #1e4620;
+        color: #a3cfbb;
+        border: 1px solid #2d5a2e;
+    }}
+    
+    [data-theme="dark"] .status-corner-closed {{
+        background: #4a1f1f;
+        color: #f5b8b8;
+        border: 1px solid #5a2828;
+    }}
+    
+    .status-dot {{
+        width: 8px;
+        height: 8px;
+        background: #28a745;
+        border-radius: 50%;
+        animation: pulse 2s ease-in-out infinite;
+    }}
+    
+    .status-dot-closed {{
+        background: #dc3545;
+        animation: none;
+    }}
+    
+    @keyframes pulse {{
+        0%, 100% {{
+            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+        }}
+        50% {{
+            box-shadow: 0 0 0 6px rgba(40, 167, 69, 0);
+        }}
     }}
     
     /* Logo positioned in top-right corner (scrolls with content) */
@@ -77,73 +145,10 @@ st.markdown(f"""
         display: block;
     }}
     
-    /* Status banner at top */
-    .status-banner {{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        padding: 0.75rem 1.5rem;
-        margin: -1rem -1rem 2rem -1rem;
-        border-bottom: 1px solid;
-    }}
-    
-    .status-banner-open {{
-        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-        border-bottom-color: #b1dfbb;
-        color: #155724;
-    }}
-    
-    .status-banner-closed {{
-        background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
-        border-bottom-color: #f1b0b7;
-        color: #721c24;
-    }}
-    
-    [data-theme="dark"] .status-banner-open {{
-        background: linear-gradient(135deg, #1e4620 0%, #2d5a2e 100%);
-        border-bottom-color: #3d6a3e;
-        color: #a3cfbb;
-    }}
-    
-    [data-theme="dark"] .status-banner-closed {{
-        background: linear-gradient(135deg, #4a1f1f 0%, #5a2828 100%);
-        border-bottom-color: #6a3838;
-        color: #f5b8b8;
-    }}
-    
-    .status-text {{
-        font-size: 0.9rem;
-        font-weight: 500;
-        letter-spacing: 0.01em;
-    }}
-    
-    .status-dot {{
-        width: 8px;
-        height: 8px;
-        background: #28a745;
-        border-radius: 50%;
-        animation: pulse 2s ease-in-out infinite;
-    }}
-    
-    .status-dot-closed {{
-        background: #dc3545;
-        animation: none;
-    }}
-    
-    @keyframes pulse {{
-        0%, 100% {{
-            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
-        }}
-        50% {{
-            box-shadow: 0 0 0 6px rgba(40, 167, 69, 0);
-        }}
-    }}
-    
     /* Hero section styling */
     .hero-container {{
         text-align: center;
-        padding: 3rem 0 2rem 0;
+        padding: 2rem 0 2rem 0;
     }}
     
     /* Enhanced hero title with modern gradient */
@@ -276,34 +281,56 @@ st.markdown(f"""
     [data-theme="dark"] .song-details .song-artist {{
         color: #adb5bd;
     }}
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {{
+        .hero-title {{
+            font-size: 2.5rem;
+        }}
+        
+        .status-corner {{
+            position: static;
+            margin: 0 auto 1rem auto;
+            display: inline-flex;
+        }}
+        
+        .logo-corner {{
+            width: 100px;
+        }}
+        
+        .header-container {{
+            text-align: center;
+            min-height: auto;
+        }}
+    }}
     </style>
 """, unsafe_allow_html=True)
 
-# Header with logo
-st.markdown(f"""
-    <div class="header-container">
-        <img src="data:image/png;base64,{logo_light_base64}" class="logo-corner logo-light" alt="Elevate Exalt Logo">
-        <img src="data:image/png;base64,{logo_dark_base64}" class="logo-corner logo-dark" alt="Elevate Exalt Logo">
-    </div>
-""", unsafe_allow_html=True)
-
-# Status Banner (above hero)
+# Header with logo and status indicator
 if registration_open:
-    st.markdown("""
-        <div class="status-banner status-banner-open">
-            <span class="status-dot"></span>
-            <span class="status-text">Registration is currently open</span>
+    st.markdown(f"""
+        <div class="header-container">
+            <div class="status-corner status-corner-open">
+                <span class="status-dot"></span>
+                <span>Registration Open</span>
+            </div>
+            <img src="data:image/png;base64,{logo_light_base64}" class="logo-corner logo-light" alt="Elevate Exalt Logo">
+            <img src="data:image/png;base64,{logo_dark_base64}" class="logo-corner logo-dark" alt="Elevate Exalt Logo">
         </div>
     """, unsafe_allow_html=True)
 else:
-    st.markdown("""
-        <div class="status-banner status-banner-closed">
-            <span class="status-dot status-dot-closed"></span>
-            <span class="status-text">Registration has closed</span>
+    st.markdown(f"""
+        <div class="header-container">
+            <div class="status-corner status-corner-closed">
+                <span class="status-dot status-dot-closed"></span>
+                <span>Registration Closed</span>
+            </div>
+            <img src="data:image/png;base64,{logo_light_base64}" class="logo-corner logo-light" alt="Elevate Exalt Logo">
+            <img src="data:image/png;base64,{logo_dark_base64}" class="logo-corner logo-dark" alt="Elevate Exalt Logo">
         </div>
     """, unsafe_allow_html=True)
 
-# Hero Section (without status)
+# Hero Section
 st.markdown("""
     <div class="hero-container">
         <div class="hero-title">ELEVATE EXALT FELIZ</div>
