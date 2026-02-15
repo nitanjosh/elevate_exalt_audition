@@ -27,19 +27,18 @@ st.markdown(f"""
         max-width: 100%;
     }}
     
-    /* Container for header with both logo and status */
+    /* Container for header with both logo and status - Flexbox for alignment */
     .header-container {{
-        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         width: 100%;
-        min-height: 60px;
-        margin-bottom: 1rem;
+        padding: 1rem 1rem 1.5rem 1rem;
+        margin-bottom: 0.5rem;
     }}
     
     /* Status indicator in top-left corner */
     .status-corner {{
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
@@ -47,7 +46,6 @@ st.markdown(f"""
         border-radius: 20px;
         font-size: 0.85rem;
         font-weight: 500;
-        z-index: 999;
     }}
     
     .status-corner-open {{
@@ -96,13 +94,11 @@ st.markdown(f"""
         }}
     }}
     
-    /* Logo positioned in top-right corner (scrolls with content) */
+    /* Logo positioned in top-right corner */
     .logo-corner {{
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
         width: 120px;
-        z-index: 999;
+        height: auto;
+        flex-shrink: 0;
     }}
     
     /* Show dark logo in dark mode, light logo in light mode */
@@ -148,7 +144,7 @@ st.markdown(f"""
     /* Hero section styling */
     .hero-container {{
         text-align: center;
-        padding: 2rem 0 2rem 0;
+        padding: 1rem 0 2rem 0;
     }}
     
     /* Enhanced hero title with modern gradient */
@@ -199,6 +195,7 @@ st.markdown(f"""
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
         border: 1px solid #e9ecef;
+        margin-bottom: 1rem;
     }}
     
     .song-card-enhanced:hover {{
@@ -288,31 +285,66 @@ st.markdown(f"""
             font-size: 2.5rem;
         }}
         
-        .status-corner {{
-            position: static;
-            margin: 0 auto 1rem auto;
-            display: inline-flex;
+        .hero-subtitle {{
+            font-size: 1.1rem;
         }}
         
         .logo-corner {{
-            width: 100px;
+            width: 90px;
+        }}
+        
+        .status-corner {{
+            font-size: 0.75rem;
+            padding: 0.4rem 0.8rem;
         }}
         
         .header-container {{
-            text-align: center;
-            min-height: auto;
+            padding: 0.75rem 0.5rem 1rem 0.5rem;
+        }}
+        
+        /* Add spacing between stacked song cards on mobile */
+        .song-card-enhanced {{
+            margin-bottom: 1.5rem;
+        }}
+        
+        .song-thumbnail {{
+            height: 160px;
+        }}
+    }}
+    
+    @media (max-width: 480px) {{
+        .hero-title {{
+            font-size: 2rem;
+        }}
+        
+        .hero-subtitle {{
+            font-size: 1rem;
+        }}
+        
+        .logo-corner {{
+            width: 80px;
+        }}
+        
+        .status-corner {{
+            font-size: 0.7rem;
+            padding: 0.35rem 0.7rem;
+        }}
+        
+        /* More spacing between cards on smaller mobile screens */
+        .song-card-enhanced {{
+            margin-bottom: 2rem;
         }}
     }}
     </style>
 """, unsafe_allow_html=True)
 
-# Header with logo and status indicator
+# Header with logo and status indicator (aligned with flexbox)
 if registration_open:
     st.markdown(f"""
         <div class="header-container">
             <div class="status-corner status-corner-open">
                 <span class="status-dot"></span>
-                <span>Registration Open</span>
+                <span>Open</span>
             </div>
             <img src="data:image/png;base64,{logo_light_base64}" class="logo-corner logo-light" alt="Elevate Exalt Logo">
             <img src="data:image/png;base64,{logo_dark_base64}" class="logo-corner logo-dark" alt="Elevate Exalt Logo">
@@ -323,7 +355,7 @@ else:
         <div class="header-container">
             <div class="status-corner status-corner-closed">
                 <span class="status-dot status-dot-closed"></span>
-                <span>Registration Closed</span>
+                <span>Closed</span>
             </div>
             <img src="data:image/png;base64,{logo_light_base64}" class="logo-corner logo-light" alt="Elevate Exalt Logo">
             <img src="data:image/png;base64,{logo_dark_base64}" class="logo-corner logo-dark" alt="Elevate Exalt Logo">
