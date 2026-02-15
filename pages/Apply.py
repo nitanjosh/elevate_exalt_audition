@@ -211,25 +211,51 @@ else:
     col5, col6 = st.columns(2)
     
     with col5:
-        aud_date = st.selectbox(
-            "Audition Date", 
-            ["February 21, 5:00PM", "March 7, 5:00PM"],
-            help="Choose your preferred audition date"
-        )
-    
-    with col6:
-        if aud_date == "February 21, 5:00PM":
-            interview_date = st.selectbox(
-                "Interview Date", 
-                ["Feb 28, 5:00PM", "March 14, 5:00PM"],
-                help="Choose your preferred interview date"
+        # Define all possible audition dates
+        all_audition_dates = ["February 21, 5:00PM", "March 7, 5:00PM"]
+        
+        # Filter out past dates
+        current_datetime = datetime.datetime.now()
+        available_audition_dates = []
+        
+        for date_str in all_audition_dates:
+            # Parse the date string
+            if "February 21" in date_str:
+                date_obj = datetime.datetime(2026, 2, 21, 17, 0)  # 5:00 PM
+            elif "March 7" in date_str:
+                date_obj = datetime.datetime(2026, 3, 7, 17, 0)  # 5:00 PM
+            
+            # Only include if date hasn't passed
+            if date_obj > current_datetime:
+                available_audition_dates.append(date_str)
+        
+        # Show dropdown or message
+        if available_audition_dates:
+            aud_date = st.selectbox(
+                "Audition Date", 
+                available_audition_dates,
+                help="Choose your preferred audition date"
             )
         else:
-            interview_date = st.selectbox(
-                "Interview Date", 
-                ["March 14, 5:00PM"],
-                help="Available interview date for this audition"
-            )
+            st.warning("No upcoming audition dates available.")
+            aud_date = None
+    
+    with col6:
+        if aud_date:
+            if aud_date == "February 21, 5:00PM":
+                interview_date = st.selectbox(
+                    "Interview Date", 
+                    ["Feb 28, 5:00PM", "March 14, 5:00PM"],
+                    help="Choose your preferred interview date"
+                )
+            else:
+                interview_date = st.selectbox(
+                    "Interview Date", 
+                    ["March 14, 5:00PM"],
+                    help="Available interview date for this audition"
+                )
+        else:
+            interview_date = None
 
     st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
@@ -242,6 +268,8 @@ else:
         # Validate required fields
         if not first_name or not last_name or not email or not dleader:
             st.error("Please fill in all required fields (marked with *)!")
+        elif not aud_date:
+            st.error("No audition dates are currently available. Please contact your Dgroup Leader.")
         else:
             st.session_state.pending_data = {
                 "first_name": first_name,
