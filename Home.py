@@ -168,41 +168,95 @@ st.markdown(f"""
         margin: 2rem 0;
     }}
     
-    /* Song card styling */
-    .song-card {{
-        background: #f8f9fa;
+    /* Enhanced song card with thumbnail */
+    .song-card-enhanced {{
+        background: #ffffff;
         border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 1rem;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
         border: 1px solid #e9ecef;
-        transition: transform 0.2s, box-shadow 0.2s;
     }}
     
-    .song-card:hover {{
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    .song-card-enhanced:hover {{
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }}
     
-    [data-theme="dark"] .song-card {{
+    [data-theme="dark"] .song-card-enhanced {{
         background: #1e1e1e;
         border: 1px solid #333;
     }}
     
-    .song-title {{
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: #495057;
+    .song-thumbnail {{
+        position: relative;
+        width: 100%;
+        height: 180px;
+        background-size: cover;
+        background-position: center;
+        background-color: #f0f0f0;
     }}
     
-    [data-theme="dark"] .song-title {{
+    .play-overlay {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }}
+    
+    .play-overlay:hover {{
+        background: rgba(0,0,0,0.5);
+    }}
+    
+    .play-circle {{
+        width: 60px;
+        height: 60px;
+        background: rgba(255,255,255,0.95);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: #667eea;
+        transition: all 0.3s ease;
+        padding-left: 4px;
+    }}
+    
+    .play-overlay:hover .play-circle {{
+        transform: scale(1.1);
+        background: #ffffff;
+    }}
+    
+    .song-details {{
+        padding: 1.25rem;
+    }}
+    
+    .song-details .song-title {{
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+        color: #2d3748;
+    }}
+    
+    [data-theme="dark"] .song-details .song-title {{
         color: #e9ecef;
     }}
     
-    .song-artist {{
+    .song-details .song-artist {{
         font-size: 0.9rem;
         color: #6c757d;
-        margin-bottom: 1rem;
+        margin-bottom: 0;
+    }}
+    
+    [data-theme="dark"] .song-details .song-artist {{
+        color: #adb5bd;
     }}
     </style>
 """, unsafe_allow_html=True)
@@ -286,11 +340,11 @@ with cat_col2:
 
 st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
-# Songs for Audition Section
+# Songs for Audition Section with Embedded Thumbnails
 st.markdown("### Songs to Prepare")
 st.markdown("""
 <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 1.5rem;">
-    Study these songs before your audition. Click the buttons below to watch and learn.
+    Study these songs before your audition. Click on the thumbnail to watch on YouTube.
 </p>
 """, unsafe_allow_html=True)
 
@@ -298,21 +352,33 @@ song_col1, song_col2 = st.columns(2)
 
 with song_col1:
     st.markdown("""
-        <div class="song-card">
-            <div class="song-title">By Your Love</div>
-            <div class="song-artist">CCF Exalt</div>
+        <div class="song-card-enhanced">
+            <div class="song-thumbnail" style="background-image: url('https://img.youtube.com/vi/KHyrPzINgyE/maxresdefault.jpg');">
+                <a href="https://www.youtube.com/watch?v=KHyrPzINgyE" target="_blank" class="play-overlay">
+                    <div class="play-circle">▶</div>
+                </a>
+            </div>
+            <div class="song-details">
+                <div class="song-title">By Your Love</div>
+                <div class="song-artist">CCF Exalt</div>
+            </div>
         </div>
     """, unsafe_allow_html=True)
-    st.link_button("▶️ Watch on YouTube", "https://www.youtube.com/watch?v=KHyrPzINgyE", use_container_width=True)
 
 with song_col2:
     st.markdown("""
-        <div class="song-card">
-            <div class="song-title">What A Beautiful Name</div>
-            <div class="song-artist">Hillsong Worship</div>
+        <div class="song-card-enhanced">
+            <div class="song-thumbnail" style="background-image: url('https://img.youtube.com/vi/nQWFzMvCfLE/maxresdefault.jpg');">
+                <a href="https://www.youtube.com/watch?v=nQWFzMvCfLE" target="_blank" class="play-overlay">
+                    <div class="play-circle">▶</div>
+                </a>
+            </div>
+            <div class="song-details">
+                <div class="song-title">What A Beautiful Name</div>
+                <div class="song-artist">Hillsong Worship</div>
+            </div>
         </div>
     """, unsafe_allow_html=True)
-    st.link_button("▶️ Watch on YouTube", "https://www.youtube.com/watch?v=nQWFzMvCfLE", use_container_width=True)
 
 # Footer with Call to Action
 st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
