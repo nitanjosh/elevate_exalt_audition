@@ -231,7 +231,7 @@ with cat_col2:
 st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
 # Songs for Audition Section
-st.markdown("### 🎵 Songs to Prepare")
+st.markdown("### Songs to Prepare")
 st.markdown("""
 <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 1.5rem;">
     Study these songs before your audition. Click the buttons below to watch and learn.
