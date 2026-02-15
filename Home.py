@@ -247,8 +247,7 @@ with song_col1:
             <div class="song-artist">CCF Exalt</div>
         </div>
     """, unsafe_allow_html=True)
-    if st.button("▶️ Watch on YouTube", key="song1", use_container_width=True):
-        st.link_button("Open YouTube", "https://www.youtube.com/watch?v=KHyrPzINgyE", use_container_width=True)
+    st.link_button("▶️ Watch on YouTube", "https://www.youtube.com/watch?v=KHyrPzINgyE", use_container_width=True)
 
 with song_col2:
     st.markdown("""
@@ -257,8 +256,7 @@ with song_col2:
             <div class="song-artist">Hillsong Worship</div>
         </div>
     """, unsafe_allow_html=True)
-    if st.button("▶️ Watch on YouTube", key="song2", use_container_width=True):
-        st.link_button("Open YouTube", "https://www.youtube.com/watch?v=nQWFzMvCfLE", use_container_width=True)
+    st.link_button("▶️ Watch on YouTube", "https://www.youtube.com/watch?v=nQWFzMvCfLE", use_container_width=True)
 
 # Footer with Call to Action
 st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
