@@ -587,7 +587,7 @@ else:
         
         col_yes, col_no, col_empty = st.columns([1, 1, 1])
         
-        if col_yes.button("✓ Confirm & Submit", type="primary", use_container_width=True):
+        if col_yes.button("Submit", type="primary", use_container_width=True):
             # Add to database
             if add_data(st.session_state.pending_data):
                 st.success(f"🎉 Application submitted successfully!\n\n**Audition:** {data['aud_date']}\n**Interview:** {data['interview_date']}\n\nSee you there, {data['first_name']}!")
