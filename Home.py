@@ -243,8 +243,8 @@ song_col1, song_col2 = st.columns(2)
 with song_col1:
     st.markdown("""
         <div class="song-card">
-            <div class="song-title">🎶 Song Title 1</div>
-            <div class="song-artist">Artist Name</div>
+            <div class="song-title">By Your Love/div>
+            <div class="song-artist">CCF Exalt</div>
         </div>
     """, unsafe_allow_html=True)
     if st.button("▶️ Watch on YouTube", key="song1", use_container_width=True):
@@ -253,8 +253,8 @@ with song_col1:
 with song_col2:
     st.markdown("""
         <div class="song-card">
-            <div class="song-title">🎶 Song Title 2</div>
-            <div class="song-artist">Artist Name</div>
+            <div class="song-title">What A Beautiful Name</div>
+            <div class="song-artist">Hillsong Worship</div>
         </div>
     """, unsafe_allow_html=True)
     if st.button("▶️ Watch on YouTube", key="song2", use_container_width=True):
