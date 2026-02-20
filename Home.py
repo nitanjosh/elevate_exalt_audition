@@ -281,7 +281,7 @@ st.markdown(f"""
 
     /* Bigger CTA button */
     div[data-testid="stButton"] button {{
-        height: 70px;
+        height: 60px;
         font-size: 1.2rem;
         font-weight: 700;
         letter-spacing: 0.03em;
