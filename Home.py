@@ -278,6 +278,14 @@ st.markdown(f"""
     [data-theme="dark"] .song-details .song-artist {{
         color: #adb5bd;
     }}
+
+    /* Bigger CTA button */
+    div[data-testid="stButton"] button {{
+        height: 70px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+    }}
     
     /* Responsive adjustments */
     @media (max-width: 768px) {{
@@ -309,6 +317,11 @@ st.markdown(f"""
         
         .song-thumbnail {{
             height: 160px;
+        }}
+
+        div[data-testid="stButton"] button {{
+            height: 60px;
+            font-size: 1.05rem;
         }}
     }}
     
