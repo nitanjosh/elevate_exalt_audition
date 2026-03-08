@@ -435,7 +435,7 @@ else:
             </div>
         """, unsafe_allow_html=True)
 
-        st.markdown('<p style="text-align: center; color: #6c757d; font-size: 0.9rem; margin-bottom: 0.75rem;">Please save the audition playlist below for future reference.</p>', unsafe_allow_html=True)
+        st.markdown('<p style="text-align: center; color: #6c757d; font-size: 0.9rem; margin-bottom: 0.75rem;">Study the songs below to prepare for your audition. 🎵</p>', unsafe_allow_html=True)
 
         col_left, col_center, col_right = st.columns([1, 2, 1])
         with col_center:
@@ -495,7 +495,20 @@ else:
         )
 
         st.markdown('<div class="section-header">Audition Details</div>', unsafe_allow_html=True)
-        
+
+        materials_options = ["GLC Book 1", "Real Talk Session 4"]
+        materials_index = None
+        if existing_data.get("materials") in materials_options:
+            materials_index = materials_options.index(existing_data.get("materials"))
+
+        materials = st.selectbox(
+            "Materials Finished *",
+            materials_options,
+            index=materials_index,
+            placeholder="Select materials finished...",
+            help="Select the highest material you have completed"
+        )
+
         category_options = ["Band", "Singer"]
         category_index = None
         if existing_data.get("category") in category_options:
@@ -588,6 +601,8 @@ else:
         if submit_clicked:
             if not first_name or not last_name or not email or not dleader:
                 st.error("Please fill in all required fields (marked with *)!")
+            elif not materials:
+                st.error("Please select the materials you have finished!")
             elif not category:
                 st.error("Please select a category!")
             elif category == "Band" and not instrument:
@@ -604,6 +619,7 @@ else:
                     "phone": phone,
                     "email": email,
                     "dleader": dleader,
+                    "materials": materials,
                     "category": category,
                     "instrument": instrument,
                     "aud_date": aud_date,
@@ -640,6 +656,10 @@ else:
         <div class="info-row">
             <span class="info-label">Dgroup Leader</span>
             <span class="info-value">{data['dleader']}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Materials Finished</span>
+            <span class="info-value">{data['materials']}</span>
         </div>
         <div class="info-row">
             <span class="info-label">Category</span>

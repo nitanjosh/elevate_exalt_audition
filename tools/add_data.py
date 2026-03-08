@@ -9,7 +9,7 @@ def init_df():
         st.session_state.df = pd.DataFrame(
             columns=[
                 "first_name","last_name","age","phone","email",
-                "dleader","category","instrument","aud_date","interview_date"
+                "dleader","materials","category","instrument","aud_date","interview_date"
             ]
         )
 
@@ -19,9 +19,9 @@ def add_data(data: dict):
         with engine.connect() as conn:
             query = text("""
                 INSERT INTO auditionees 
-                (first_name, last_name, age, phone, email, dleader, category, instrument, aud_date, interview_date)
+                (first_name, last_name, age, phone, email, dleader, materials, category, instrument, aud_date, interview_date)
                 VALUES 
-                (:first_name, :last_name, :age, :phone, :email, :dleader, :category, :instrument, :aud_date, :interview_date)
+                (:first_name, :last_name, :age, :phone, :email, :dleader, :materials, :category, :instrument, :aud_date, :interview_date)
             """)
             
             conn.execute(query, data)
