@@ -146,18 +146,37 @@ st.markdown(f"""
         text-align: center;
         padding: 1rem 0 2rem 0;
     }}
+
+    /* Small eyebrow label above title */
+    .hero-eyebrow {{
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #a78bfa;
+        margin-bottom: 0.75rem;
+    }}
+
+    [data-theme="dark"] .hero-eyebrow {{
+        color: #c4b5fd;
+    }}
     
     /* Enhanced hero title with modern gradient */
     .hero-title {{
-        font-size: 3.5rem;
+        font-size: 3.8rem;
         font-weight: 800;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        margin-bottom: 0.5rem;
-        letter-spacing: -0.02em;
-        line-height: 1.2;
+        margin-bottom: 0.25rem;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+    }}
+
+    /* Accent word in title (slightly different styling if needed) */
+    .hero-title-accent {{
+        font-style: italic;
     }}
     
     [data-theme="dark"] .hero-title {{
@@ -172,12 +191,25 @@ st.markdown(f"""
         font-size: 1.3rem;
         color: #6c757d;
         font-weight: 400;
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.5rem;
         letter-spacing: 0.02em;
     }}
     
     [data-theme="dark"] .hero-subtitle {{
         color: #adb5bd;
+    }}
+
+    /* Tagline below subtitle */
+    .hero-tagline {{
+        font-size: 0.9rem;
+        color: #adb5bd;
+        font-style: italic;
+        letter-spacing: 0.04em;
+        margin-top: 0.25rem;
+    }}
+
+    [data-theme="dark"] .hero-tagline {{
+        color: #6c757d;
     }}
     
     /* Divider */
@@ -185,6 +217,55 @@ st.markdown(f"""
         height: 1px;
         background: linear-gradient(90deg, transparent, #e9ecef, transparent);
         margin: 2rem 0;
+    }}
+
+    /* Requirements section */
+    .requirements-grid {{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }}
+
+    .requirement-card {{
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: transparent;
+        border: 1px solid #e9ecef;
+        border-radius: 10px;
+        padding: 0.85rem 1rem;
+        transition: border-color 0.2s ease;
+    }}
+
+    .requirement-card:hover {{
+        border-color: #a78bfa;
+    }}
+
+    [data-theme="dark"] .requirement-card {{
+        border: 1px solid #2a2a2a;
+    }}
+
+    [data-theme="dark"] .requirement-card:hover {{
+        border-color: #5b4a8a;
+    }}
+
+    .req-text {{
+        font-size: 0.88rem;
+        color: #2d2d2d !important;
+        font-weight: 500;
+        line-height: 1.4;
+    }}
+
+    @media (prefers-color-scheme: dark) {{
+        .req-text {{
+            color: #ffffff !important;
+        }}
+    }}
+
+    [data-theme="dark"] .req-text,
+    body[data-theme="dark"] .req-text {{
+        color: #ffffff !important;
     }}
     
     /* Enhanced song card with thumbnail */
@@ -290,7 +371,7 @@ st.markdown(f"""
     /* Responsive adjustments */
     @media (max-width: 768px) {{
         .hero-title {{
-            font-size: 2.5rem;
+            font-size: 2.8rem;
         }}
         
         .hero-subtitle {{
@@ -323,11 +404,15 @@ st.markdown(f"""
             height: 60px;
             font-size: 1.05rem;
         }}
+
+        .requirements-grid {{
+            grid-template-columns: 1fr;
+        }}
     }}
     
     @media (max-width: 480px) {{
         .hero-title {{
-            font-size: 2rem;
+            font-size: 2.2rem;
         }}
         
         .hero-subtitle {{
@@ -378,7 +463,7 @@ else:
 # Hero Section
 st.markdown("""
     <div class="hero-container">
-        <div class="hero-title">ELEVATE EXALT FELIZ</div>
+        <div class="hero-title">Elevate Exalt<br><span class="hero-title-accent">Feliz</span></div>
         <div class="hero-subtitle">Audition Application Portal</div>
     </div>
 """, unsafe_allow_html=True)
@@ -393,16 +478,36 @@ date_col1, date_col2 = st.columns(2)
 with date_col1:
     st.markdown("""
         **Audition Dates**
-        - February 21, 2026 at 5:00 PM
-        - March 7, 2026 at 5:00 PM
+        - March 21, 2026 at 4:30 PM
     """)
 
 with date_col2:
     st.markdown("""
         **Interview Dates**
-        - February 28, 2026 at 5:00 PM
-        - March 14, 2026 at 5:00 PM
+        - March 28, 2026 at 5:00 PM
     """)
+
+st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+
+# Requirements Section
+st.markdown("### Requirements")
+
+st.markdown("""
+<div class="requirements-grid">
+    <div class="requirement-card">
+        <span class="req-text">A Servant Heart</span>
+    </div>
+    <div class="requirement-card">
+        <span class="req-text">Auditionee must be part of a DGroup</span>
+    </div>
+    <div class="requirement-card">
+        <span class="req-text">At least finishes Real Talk Session 4 OR GLC Book 1</span>
+    </div>
+    <div class="requirement-card">
+        <span class="req-text">DGroup leader must be aware of Audition</span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 

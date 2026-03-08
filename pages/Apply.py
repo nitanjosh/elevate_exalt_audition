@@ -451,7 +451,7 @@ else:
         
         with col5:
             # Define all possible audition dates
-            all_audition_dates = ["February 21, 5:00PM", "March 7, 5:00PM"]
+            all_audition_dates = ["March 21, 4:30PM"]
             
             # Filter out past dates
             current_datetime = datetime.datetime.now()
@@ -459,16 +459,13 @@ else:
             
             for date_str in all_audition_dates:
                 # Parse the date string
-                if "February 21" in date_str:
-                    date_obj = datetime.datetime(2026, 2, 21, 17, 0)  # 5:00 PM
-                elif "March 7" in date_str:
-                    date_obj = datetime.datetime(2026, 3, 7, 17, 0)  # 5:00 PM
+                if "March 21" in date_str:
+                    date_obj = datetime.datetime(2026, 3, 21, 16, 30)  # 4:30 PM
                 
                 # Only include if date hasn't passed
                 if date_obj > current_datetime:
                     available_audition_dates.append(date_str)
             
-            # IMPROVED: Show dropdown with native placeholder
             if available_audition_dates:
                 # Get the index for audition date if it exists in session state
                 aud_date_index = None
@@ -488,10 +485,8 @@ else:
         
         with col6:
             if aud_date:
-                if aud_date == "February 21, 5:00PM":
-                    interview_options_list = ["February 28, 5:00PM", "March 14, 5:00PM"]
-                else:
-                    interview_options_list = ["March 14, 5:00PM"]
+                if aud_date == "March 21, 4:30PM":
+                    interview_options_list = ["March 28, 5:00PM"]
                 
                 # IMPROVED: Get the index for interview date if it exists in session state
                 interview_index = None

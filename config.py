@@ -1,6 +1,6 @@
 import datetime
 
-REGISTRATION_DEADLINE = datetime.datetime(2026, 3, 4)
+REGISTRATION_DEADLINE = datetime.datetime(2026, 3, 15)
 
 PAGE_CONFIG = {
     "page_title": "Elevate Exalt Audition",
