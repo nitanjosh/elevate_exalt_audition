@@ -361,8 +361,92 @@ if datetime.datetime.now() > REGISTRATION_DEADLINE:
 else:
     # Check if we're in confirmation mode
     show_confirmation = st.session_state.get("show_confirmation", False)
-    
-    if not show_confirmation:
+    submission_success = st.session_state.get("submission_success", False)
+
+    if submission_success:
+        data = st.session_state.get("submitted_data", {})
+        first_name = data.get("first_name", "there")
+        aud_date = data.get("aud_date", "")
+        interview_date = data.get("interview_date", "")
+
+        st.markdown(f"""
+            <div style="text-align: center; padding: 3rem 1rem;">
+                <div style="font-size: 3.5rem; margin-bottom: 1rem;">🎉</div>
+                <div class="page-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">You're all set, {first_name}!</div>
+                <div class="page-subtitle">Your audition application has been submitted successfully.</div>
+            </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown(f"""
+            <style>
+                .success-summary-card {{
+                    border: 1px solid #e9ecef;
+                    border-radius: 12px;
+                    padding: 1.25rem 1.5rem;
+                    max-width: 420px;
+                    margin: 0 auto 2rem auto;
+                }}
+                [data-theme="dark"] .success-summary-card,
+                @media (prefers-color-scheme: dark) {{
+                    .success-summary-card {{ border-color: #2a2a2a; }}
+                }}
+                .success-summary-row {{
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0.5rem 0;
+                }}
+                .success-summary-row.bordered {{
+                    border-bottom: 1px solid #f0f0f0;
+                }}
+                [data-theme="dark"] .success-summary-row.bordered {{
+                    border-bottom-color: #2a2a2a;
+                }}
+                @media (prefers-color-scheme: dark) {{
+                    .success-summary-row.bordered {{ border-bottom-color: #2a2a2a; }}
+                }}
+                .success-summary-label {{
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    color: #9ca3af;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                }}
+                .success-summary-value {{
+                    font-size: 0.92rem;
+                    font-weight: 500;
+                    color: #1f2937 !important;
+                }}
+                [data-theme="dark"] .success-summary-value {{
+                    color: #f3f4f6 !important;
+                }}
+                @media (prefers-color-scheme: dark) {{
+                    .success-summary-value {{ color: #f3f4f6 !important; }}
+                }}
+            </style>
+            <div class="success-summary-card">
+                <div class="success-summary-row bordered">
+                    <span class="success-summary-label">Audition</span>
+                    <span class="success-summary-value">{aud_date}</span>
+                </div>
+                <div class="success-summary-row">
+                    <span class="success-summary-label">Interview</span>
+                    <span class="success-summary-value">{interview_date}</span>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown('<p style="text-align: center; color: #6c757d; font-size: 0.9rem; margin-bottom: 0.75rem;">Please save the audition playlist below for future reference.</p>', unsafe_allow_html=True)
+
+        col_left, col_center, col_right = st.columns([1, 2, 1])
+        with col_center:
+            st.link_button(
+                "▶  View Audition Playlist on YouTube",
+                "https://youtube.com/playlist?list=PLOzqg8hRX-XGd7X8JeWTJpWdAYE4kaBOj&si=yWbO8nPyOPzhafdX",
+                use_container_width=True,
+                type="primary"
+            )
+
+    elif not show_confirmation:
         # Page header
         st.markdown('<div class="page-title">Audition Application</div>', unsafe_allow_html=True)
         st.markdown('<div class="page-subtitle">Elevate Exalt Feliz</div>', unsafe_allow_html=True)
@@ -412,7 +496,6 @@ else:
 
         st.markdown('<div class="section-header">Audition Details</div>', unsafe_allow_html=True)
         
-        # IMPROVED: Category dropdown with native placeholder
         category_options = ["Band", "Singer"]
         category_index = None
         if existing_data.get("category") in category_options:
@@ -426,7 +509,6 @@ else:
             help="Select your audition category"
         )
 
-        # IMPROVED: Instrument dropdown with native placeholder
         if category == "Band":
             instrument_options = ["Acoustic Guitar", "Electric Guitar", "Bass Guitar", "Drums", "Keyboard"]
             instrument_index = None
@@ -450,24 +532,19 @@ else:
         col5, col6 = st.columns(2)
         
         with col5:
-            # Define all possible audition dates
             all_audition_dates = ["March 21, 4:30PM"]
             
-            # Filter out past dates
             current_datetime = datetime.datetime.now()
             available_audition_dates = []
             
             for date_str in all_audition_dates:
-                # Parse the date string
                 if "March 21" in date_str:
-                    date_obj = datetime.datetime(2026, 3, 21, 16, 30)  # 4:30 PM
+                    date_obj = datetime.datetime(2026, 3, 21, 16, 30)
                 
-                # Only include if date hasn't passed
                 if date_obj > current_datetime:
                     available_audition_dates.append(date_str)
             
             if available_audition_dates:
-                # Get the index for audition date if it exists in session state
                 aud_date_index = None
                 if existing_data.get("aud_date") in available_audition_dates:
                     aud_date_index = available_audition_dates.index(existing_data.get("aud_date"))
@@ -488,7 +565,6 @@ else:
                 if aud_date == "March 21, 4:30PM":
                     interview_options_list = ["March 28, 5:00PM"]
                 
-                # IMPROVED: Get the index for interview date if it exists in session state
                 interview_index = None
                 if existing_data.get("interview_date") in interview_options_list:
                     interview_index = interview_options_list.index(existing_data.get("interview_date"))
@@ -505,13 +581,11 @@ else:
 
         st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
-        # Submit button
         col_left, col_center, col_right = st.columns([1, 2, 1])
         with col_center:
             submit_clicked = st.button("Continue to Review", type="primary", use_container_width=True)
 
         if submit_clicked:
-            # IMPROVED: Validate required fields - simplified logic
             if not first_name or not last_name or not email or not dleader:
                 st.error("Please fill in all required fields (marked with *)!")
             elif not category:
@@ -537,15 +611,13 @@ else:
                 }
                 st.session_state.show_confirmation = True
                 st.rerun()
-    
     else:
-        # Confirmation/Review mode - Only show review information
+        # Confirmation/Review mode
         data = st.session_state.pending_data
         
         st.markdown('<div class="page-title">Review Your Application</div>', unsafe_allow_html=True)
         st.markdown('<div class="page-subtitle">Please confirm your details before submitting</div>', unsafe_allow_html=True)
         
-        # Review information in a clean format
         st.markdown('<div class="review-container">', unsafe_allow_html=True)
         
         st.markdown(f"""
@@ -596,17 +668,15 @@ else:
         col_yes, col_no, col_empty = st.columns([1, 1, 1])
         
         if col_yes.button("Submit", type="primary", use_container_width=True):
-            # Add to database
             if add_data(st.session_state.pending_data):
-                st.success(f"🎉 Application submitted successfully!\n\n**Audition:** {data['aud_date']}\n**Interview:** {data['interview_date']}\n\nSee you there, {data['first_name']}!")
-                st.balloons()
-                # Clear confirmation state
+                st.session_state.submitted_data = st.session_state.pending_data
+                st.session_state.submission_success = True
                 st.session_state.show_confirmation = False
                 st.session_state.pending_data = None
+                st.rerun()
             else:
                 st.error("Failed to submit application. Please try again or contact support.")
         
         if col_no.button("← Edit Application", use_container_width=True):
-            # Clear confirmation state to go back to form (but keep pending_data)
             st.session_state.show_confirmation = False
             st.rerun()

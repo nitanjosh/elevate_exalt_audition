@@ -501,7 +501,7 @@ st.markdown("""
         <span class="req-text">Auditionee must be part of a DGroup</span>
     </div>
     <div class="requirement-card">
-        <span class="req-text">At least finishes Real Talk Session 4 OR GLC Book 1</span>
+        <span class="req-text">At least finished Real Talk Session 4 OR GLC Book 1</span>
     </div>
     <div class="requirement-card">
         <span class="req-text">DGroup leader must be aware of Audition</span>
